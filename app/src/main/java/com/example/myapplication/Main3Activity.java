@@ -52,5 +52,7 @@ public class Main3Activity extends AppCompatActivity {
         i.putExtra("BUNDLE",args);
         context.startActivity(i);
         finish();
+
+
     }
 }
