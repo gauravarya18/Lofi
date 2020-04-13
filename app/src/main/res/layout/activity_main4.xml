@@ -99,14 +99,30 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="80dp"
-            android:text="Show Results"
+            android:layout_marginBottom="128dp"
             android:onClick="ReadBtn"
+            android:text="Show Results"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/scanBtn2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="48dp"
+            android:onClick="savebtn"
+            android:text="Save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
-
 
 
     </android.support.constraint.ConstraintLayout>

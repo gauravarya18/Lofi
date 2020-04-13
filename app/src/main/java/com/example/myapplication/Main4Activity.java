@@ -73,8 +73,7 @@ public class Main4Activity extends AppCompatActivity {
     WifiReceiver receiverWifi;
     EditText textmsg;
     static final int READ_BLOCK_SIZE = 100;
-    Animation frombottom;
-    ConstraintLayout login;
+
 
 
     @Override
@@ -82,9 +81,6 @@ public class Main4Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
 
-        frombottom = AnimationUtils.loadAnimation(this, R.anim.frombottom);
-        login =(ConstraintLayout) findViewById(R.id.login_page);
-        login.startAnimation(frombottom);
 
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
