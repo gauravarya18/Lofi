@@ -53,8 +53,8 @@ class WifiReceiver extends BroadcastReceiver {
             for (ScanResult scanResult : wifiList) {
                 // sb.append("\n").append(scanResult.SSID).append("   -   ").append(scanResult.BSSID).append("  -   ").append("   -   ").append(scanResult.level).append(scanResult.capabilities);
                 if(scanResult.level>-80)
-                    if(!list.contains(scanResult.BSSID+"\n"+scanResult.SSID+"\n-----\n"))
-                        list.add(scanResult.BSSID+"\n"+scanResult.SSID+"\n-----\n");
+                    if(!list.contains(scanResult.BSSID))
+                        list.add(scanResult.BSSID);
                 //Level.add(scanResult.level+"");
             }
 
