@@ -1,12 +1,15 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -69,10 +72,15 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Main4Activity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
-
+    private static final int PERMISSION_REQUEST_STORAGE=1000;
+    private static final int READ_REQUEST_CODE=42;
     private ListView wifiList;
     private WifiManager wifiManager;
     private final int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
@@ -81,7 +89,16 @@ public class Main4Activity extends AppCompatActivity {
     static final int READ_BLOCK_SIZE = 100;
     Animation frombottom;
     ConstraintLayout login;
+    String FileData;
+    String wifiData;
+    Map<String,ArrayList<String>> dataFile=new HashMap<>();
+    EditText resultData;
 
+
+    String xx="";
+    private String TAG ="main4activty";
+    public String  actualfilepath="";
+    private int request_code =1, FILE_SELECT_CODE =101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +117,7 @@ public class Main4Activity extends AppCompatActivity {
         }
 
         textmsg=(EditText)findViewById(R.id.filedata);
+        resultData=findViewById(R.id.Result);
 
 //        try {
 //            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
@@ -132,8 +150,14 @@ public class Main4Activity extends AppCompatActivity {
         {
             tv.setText(tv.getText()+list.get(i)+"\n");
         }
+        wifiData=tv.getText().toString();
 
-        textmsg.setText(readText("Download/data.txt"));
+        performfileSearch();
+//        FileData=readText(("Download/data.txt"));
+        textmsg.setText(FileData);
+
+        String x=compareData((list));
+        resultData.setText(x);
     }
 
     @Override
@@ -198,7 +222,7 @@ public class Main4Activity extends AppCompatActivity {
         this.doubleBackToExitPressedOnce = true;
 
 
-        Toast.makeText(this, "Please   click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -208,11 +232,44 @@ public class Main4Activity extends AppCompatActivity {
             }
         }, 2000);
     }
+    private void performfileSearch()
+    {
+        Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/*");
+        Toast.makeText(Main4Activity.this, "permissio", Toast.LENGTH_LONG).show();
+        startActivityForResult(intent,READ_REQUEST_CODE);
+    }
+
+    @Override
+
+
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Toast.makeText(Main4Activity.this, "88888888", Toast.LENGTH_LONG).show();
+        if(requestCode==READ_REQUEST_CODE&&resultCode== Activity.RESULT_OK){
+            if(data!=null){
+                Uri uri=data.getData();
+                String path=uri.getPath();
+                path=path.substring(path.indexOf(":")+1);
+                if(path.contains("emulated")){
+                    path=path.substring(path.indexOf("0")+1);
+                }
+                Toast.makeText(Main4Activity.this, ""+path, Toast.LENGTH_SHORT).show();
+                xx=path;
+                textmsg.setText(readText(path));
+
+            }
+        }
+    }
+
 
 
     private String readText(String input){
 
-
+        String[] A=input.split("/");
+        A[2]="data.txt";
+        input="/"+A[1]+"/"+A[2];
         Toast.makeText(Main4Activity.this, input, Toast.LENGTH_SHORT).show();
         File file =new File(Environment.getExternalStorageDirectory(),input);
         StringBuilder text=new StringBuilder();
@@ -223,19 +280,35 @@ public class Main4Activity extends AppCompatActivity {
 
             BufferedReader bf=new BufferedReader(new FileReader(file));
             String line;
-            String temp_name="";
-            int temp_matches=0;
+
             while((line = bf.readLine())!=null)
             {
+                String Key=null;
+                ArrayList<String>tempList=new ArrayList<>();
                 text.append(line);
                 text.append("\n");
+                if(line=="*")
+                {
+                    line=bf.readLine();
+                    Key=line;
+                    while((line = bf.readLine())!="*")
+                    {
+                        tempList.add(line);
+                        text.append(line);
+                        text.append("\n");
+                    }
+                }
+
+                dataFile.put(Key,tempList);
             }
             Log.d("hey1",name);
             bf.close();
 
         }
+
         catch (IOException e)
         {
+            Toast.makeText(this,"Error in Fetching",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 //        float x=matches/n;
@@ -243,6 +316,28 @@ public class Main4Activity extends AppCompatActivity {
 //        //return name+" "+String.valueOf(x);
         return text.toString();
 
+    }
+
+//    Adaptor to compare the file data and live data
+    private String compareData(ArrayList<String>wifiData)
+    {
+        for (Map.Entry<String,ArrayList<String>> entry : dataFile.entrySet())
+        {
+            if(calScore(entry.getValue(),wifiData)==1)
+                return entry.getKey();
+
+        }
+
+        return "No location Found";
+    }
+
+//    Specifying a special Algorithm to compare the strings
+    private int calScore(ArrayList<String>mapArray,ArrayList<String>liveData)
+    {
+        if(mapArray==liveData)
+            return 1;
+        else
+            return 0;
     }
 }
 
