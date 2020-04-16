@@ -152,8 +152,8 @@ public class Main4Activity extends AppCompatActivity {
         }
         wifiData=tv.getText().toString();
 
-        performfileSearch();
-//        FileData=readText(("Download/data.txt"));
+       // performfileSearch();
+      FileData=readText(("Download/data.txt"));
         textmsg.setText(FileData);
 
         String x=compareData((list));
@@ -266,10 +266,11 @@ public class Main4Activity extends AppCompatActivity {
 
 
     private String readText(String input){
-
-        String[] A=input.split("/");
-        A[2]="data.txt";
-        input="/"+A[1]+"/"+A[2];
+//        Log.d("heyyy",input);
+//        String[] A=input.split("/");
+//        A[2]="data.txt";
+//        input="/"+A[1]+"/"+A[2];
+        Log.d("heyyy",input);
         Toast.makeText(Main4Activity.this, input, Toast.LENGTH_SHORT).show();
         File file =new File(Environment.getExternalStorageDirectory(),input);
         StringBuilder text=new StringBuilder();
@@ -280,10 +281,10 @@ public class Main4Activity extends AppCompatActivity {
 
             BufferedReader bf=new BufferedReader(new FileReader(file));
             String line;
-
+            Log.d("map","start");
             while((line = bf.readLine())!=null)
             {
-                String Key=null;
+                String Key="";
                 ArrayList<String>tempList=new ArrayList<>();
                 text.append(line);
                 text.append("\n");
@@ -298,6 +299,9 @@ public class Main4Activity extends AppCompatActivity {
                         text.append("\n");
                     }
                 }
+                Log.d("map",Key);
+                for(int i=0;i<tempList.size();i++)
+                    Log.d("map",tempList.get(i));
 
                 dataFile.put(Key,tempList);
             }
@@ -312,7 +316,7 @@ public class Main4Activity extends AppCompatActivity {
             e.printStackTrace();
         }
 //        float x=matches/n;
-//
+        Log.d("map","end");
 //        //return name+" "+String.valueOf(x);
         return text.toString();
 
@@ -323,7 +327,7 @@ public class Main4Activity extends AppCompatActivity {
     {
         for (Map.Entry<String,ArrayList<String>> entry : dataFile.entrySet())
         {
-            if(calScore(entry.getValue(),wifiData)==1)
+            if(calScore(entry.getValue(),wifiData)>=0.5)
                 return entry.getKey();
 
         }
@@ -332,12 +336,21 @@ public class Main4Activity extends AppCompatActivity {
     }
 
 //    Specifying a special Algorithm to compare the strings
-    private int calScore(ArrayList<String>mapArray,ArrayList<String>liveData)
+    private float calScore(ArrayList<String>mapArray,ArrayList<String>liveData)
     {
-        if(mapArray==liveData)
-            return 1;
-        else
-            return 0;
+//        if(mapArray==liveData)
+//            return 1;
+//        else
+//            return 0;
+        int match=0;
+          for(int i=0;i<mapArray.size();i++)
+          {
+              Log.d("heyyy",mapArray.get(i));
+              if(liveData.contains(mapArray.get(i)))
+                  match+=1;
+          }
+
+          return match;
     }
 }
 
