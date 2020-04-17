@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Main3Activity extends AppCompatActivity {
 
-    ImageView bgapp, clover;
+    ImageView bgapp;
     LinearLayout textsplash, texthome;
     Animation frombottom;
     ConstraintLayout login;
@@ -30,25 +30,18 @@ public class Main3Activity extends AppCompatActivity {
 
 
         bgapp = (ImageView) findViewById(R.id.bgapp);
-        clover = (ImageView) findViewById(R.id.clover);
-        textsplash = (LinearLayout) findViewById(R.id.textsplash);
-//        texthome = (LinearLayout) findViewById(R.id.texthome);
-        login =(ConstraintLayout) findViewById(R.id.login_page);
 //
-//
-//
-//        texthome.startAnimation(frombottom);
-        login.startAnimation(frombottom);
+//        textsplash = (LinearLayout) findViewById(R.id.textsplash);
 
-        bgapp.animate().translationY(-1900).setDuration(800).setStartDelay(500);
-        clover.animate().alpha(0).setDuration(800).setStartDelay(800);
-        textsplash.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(800);
+
+
+//        bgapp.animate().translationY(+1000).setDuration(1000).setStartDelay(500);
+//        textsplash.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(800);
 
         new CountDownTimer(2000, 1000) {
             public void onFinish() {
                 // When timer is finished
                 // Execute your code here
-                //        Context context=Main3Activity.this;
                 ArrayList<String> BSSID = new ArrayList<>();
                 Intent i=new Intent(Main3Activity.this,Main4Activity.class);
                 Bundle args = new Bundle();
