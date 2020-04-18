@@ -45,7 +45,7 @@
         android:fontFamily="@font/alexbrushregular"
         android:text="Lofi"
         android:textColor="#FFF"
-        android:textSize="80sp"
+        android:textSize="100sp"
         android:textStyle="bold"
         android:transitionName="title"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
@@ -59,13 +59,15 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:fontFamily="@font/mr"
+
         android:text="Find Yourself"
         android:textColor="#FFF"
-
         android:textSize="24sp"
-        android:fontFamily="@font/mr"
         app:layout_constraintBottom_toTopOf="@+id/bgapp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

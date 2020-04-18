@@ -55,6 +55,7 @@ public class Main3Activity extends AppCompatActivity {
         heading =(TextView) findViewById(R.id.textView6);
 //
         subheading =(TextView) findViewById(R.id.textView5);
+        frombottom = AnimationUtils.loadAnimation(Main3Activity.this, R.anim.frombottom);
 //        textsplash = (LinearLayout) findViewById(R.id.textsplash);
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -62,7 +63,17 @@ public class Main3Activity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Turning WiFi ON  ...", Toast.LENGTH_LONG).show();
             wifiManager.setWifiEnabled(true);
         }
+        subheading.setVisibility(View.INVISIBLE);
+        heading.startAnimation(frombottom);
+        new CountDownTimer(2000, 1000) {
+            public void onFinish() {
+                subheading.setVisibility(View.VISIBLE);
+            }
 
+            public void onTick(long millisUntilFinished) {
+
+            }
+        }.start();
 
       //  bgapp.animate().translationY(1500).setDuration(1000).setStartDelay(500);
 //        textsplash.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(800);
@@ -90,6 +101,10 @@ public class Main3Activity extends AppCompatActivity {
             }
 
             public void onTick(long millisUntilFinished) {
+
+
+                //login.setVisibility(View.VISIBLE);
+
 
 
             }

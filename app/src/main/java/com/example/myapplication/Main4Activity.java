@@ -117,17 +117,7 @@ public class Main4Activity extends AppCompatActivity {
        // getWindow().getSharedElementEnterTransition().setDuration(800);
 //        login.setVisibility(View.VISIBLE);
 //       // getWindow().getSharedElementReturnTransition().setDuration(2000);
-//        new CountDownTimer(500, 1000) {
-//            public void onFinish() {
-//                //frombottom = AnimationUtils.loadAnimation(Main4Activity.this, R.anim.frombottom);
-//                login.setVisibility(View.VISIBLE);
-//                //login.startAnimation(frombottom);
-//            }
 //
-//            public void onTick(long millisUntilFinished) {
-//
-//            }
-//        }.start();
 
 
 
