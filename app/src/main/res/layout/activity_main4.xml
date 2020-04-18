@@ -5,38 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main4Activity"
-    android:background="#fff">
+    android:background="#80cbc4">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/alexbrushregular"
+        android:text="Lofi"
+
+        android:textColor="#ffffff"
+        android:textSize="59sp"
+        android:textStyle="bold"
+        android:transitionName="title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/login_page"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="406dp"
+        android:layout_height="594dp"
+        android:background="#80cbc4"
         android:orientation="vertical"
-        android:background="#ffffff"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/alexbrushregular"
-            android:text="Lofi"
-            android:textColor="@color/swipecard"
-            android:textSize="59sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="200dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp">
 
 
@@ -96,24 +101,26 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="16dp"
             android:onClick="ReadBtn"
             android:text="Show Results"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/Result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:hint="Result"
-            android:textColorHint="#420"
             android:layout_marginBottom="59dp"
+            android:hint="Result"
+            android:textColor="#000"
+            android:textColorHint="#420"
             app:layout_constraintBottom_toTopOf="@+id/scanBtn1"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView3"></EditText>
+            app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="-14dp"></EditText>
 
     </android.support.constraint.ConstraintLayout>
 

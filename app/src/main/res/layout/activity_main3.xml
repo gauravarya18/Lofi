@@ -47,6 +47,7 @@
         android:textColor="#FFF"
         android:textSize="80sp"
         android:textStyle="bold"
+        android:transitionName="title"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -60,7 +61,9 @@
         android:layout_height="wrap_content"
         android:text="Find Yourself"
         android:textColor="#FFF"
+
         android:textSize="24sp"
+        android:fontFamily="@font/mr"
         app:layout_constraintBottom_toTopOf="@+id/bgapp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -2,15 +2,18 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -104,10 +107,22 @@ public class Main4Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
-
-        frombottom = AnimationUtils.loadAnimation(this, R.anim.frombottom);
         login =(ConstraintLayout) findViewById(R.id.login_page);
-        login.startAnimation(frombottom);
+        login.setVisibility(View.INVISIBLE);
+        getWindow().getSharedElementEnterTransition().setDuration(800);
+       // getWindow().getSharedElementReturnTransition().setDuration(2000);
+        new CountDownTimer(500, 1000) {
+            public void onFinish() {
+                frombottom = AnimationUtils.loadAnimation(Main4Activity.this, R.anim.frombottom);
+                login.setVisibility(View.VISIBLE);
+                login.startAnimation(frombottom);
+            }
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+        }.start();
+
 
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -172,12 +187,12 @@ public class Main4Activity extends AppCompatActivity {
 
     private void getWifi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Toast.makeText(Main4Activity.this, "version>=marshmallow", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Main4Activity.this, "version>=marshmallow", Toast.LENGTH_SHORT).show();
             if (ContextCompat.checkSelfPermission(Main4Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(Main4Activity.this, "location turned off", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(Main4Activity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
             } else {
-                Toast.makeText(Main4Activity.this, "location turned on", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Main4Activity.this, "location turned on", Toast.LENGTH_SHORT).show();
                 wifiManager.startScan();
             }
         } else {
@@ -216,7 +231,7 @@ public class Main4Activity extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            return;
+            finish();
         }
 
         this.doubleBackToExitPressedOnce = true;
