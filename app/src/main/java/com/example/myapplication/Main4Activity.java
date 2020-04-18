@@ -251,23 +251,31 @@ public class Main4Activity extends AppCompatActivity {
             BufferedReader bf=new BufferedReader(new FileReader(file));
             String line;
             Log.d("map","start");
+            String d="!";
             while((line = bf.readLine())!=null)
             {
                 String Key="";
                 ArrayList<String>tempList=new ArrayList<>();
                 text.append(line);
                 text.append("\n");
-                if(line=="*")
+                Log.d("map",line);
+                if(line.matches(d))
                 {
                     line=bf.readLine();
                     Key=line;
-                    while((line = bf.readLine())!="*")
+                    text.append(line);
+                    while((line = bf.readLine())!=null)
                     {
+                        if(line.matches(d))
+                            break;
                         tempList.add(line);
+                        //Toast.makeText(this,"Error in Fetching",Toast.LENGTH_LONG).show();
                         text.append(line);
+
                         text.append("\n");
                     }
                 }
+                Log.d("map","iiiii");
                 Log.d("map",Key);
                 for(int i=0;i<tempList.size();i++)
                     Log.d("map",tempList.get(i));
@@ -312,14 +320,14 @@ public class Main4Activity extends AppCompatActivity {
 //        else
 //            return 0;
         int match=0;
-          for(int i=0;i<mapArray.size();i++)
+          for(int i=0;i<liveData.size();i++)
           {
-              Log.d("heyyy",mapArray.get(i));
-              if(liveData.contains(mapArray.get(i)))
+              //Log.d("heyyy",mapArray.get(i));
+              if(mapArray.contains(liveData.get(i)))
                   match+=1;
           }
 
-          return match;
+          return match/liveData.size();
     }
 }
 
