@@ -107,29 +107,31 @@ public class Main4Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
-        login =(ConstraintLayout) findViewById(R.id.login_page);
-        login.setVisibility(View.INVISIBLE);
-        getWindow().getSharedElementEnterTransition().setDuration(800);
-       // getWindow().getSharedElementReturnTransition().setDuration(2000);
-        new CountDownTimer(500, 1000) {
-            public void onFinish() {
-                frombottom = AnimationUtils.loadAnimation(Main4Activity.this, R.anim.frombottom);
-                login.setVisibility(View.VISIBLE);
-                login.startAnimation(frombottom);
-            }
 
-            public void onTick(long millisUntilFinished) {
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        list = (ArrayList<String>) args.getSerializable("ARRAYLIST");
 
-            }
-        }.start();
+//        login =(ConstraintLayout) findViewById(R.id.login_page);
+//        login.setVisibility(View.INVISIBLE);
+       // getWindow().getSharedElementEnterTransition().setDuration(800);
+//        login.setVisibility(View.VISIBLE);
+//       // getWindow().getSharedElementReturnTransition().setDuration(2000);
+//        new CountDownTimer(500, 1000) {
+//            public void onFinish() {
+//                //frombottom = AnimationUtils.loadAnimation(Main4Activity.this, R.anim.frombottom);
+//                login.setVisibility(View.VISIBLE);
+//                //login.startAnimation(frombottom);
+//            }
+//
+//            public void onTick(long millisUntilFinished) {
+//
+//            }
+//        }.start();
 
 
 
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (!wifiManager.isWifiEnabled()) {
-            Toast.makeText(getApplicationContext(), "Turning WiFi ON  ...", Toast.LENGTH_LONG).show();
-            wifiManager.setWifiEnabled(true);
-        }
+
 
         textmsg=(EditText)findViewById(R.id.filedata);
         resultData=findViewById(R.id.Result);
@@ -175,54 +177,6 @@ public class Main4Activity extends AppCompatActivity {
         resultData.setText(x);
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        receiverWifi = new WifiReceiver(wifiManager, wifiList,this,list);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        registerReceiver(receiverWifi, intentFilter);
-        getWifi();
-    }
-
-    private void getWifi() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //Toast.makeText(Main4Activity.this, "version>=marshmallow", Toast.LENGTH_SHORT).show();
-            if (ContextCompat.checkSelfPermission(Main4Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(Main4Activity.this, "location turned off", Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(Main4Activity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
-            } else {
-                //Toast.makeText(Main4Activity.this, "location turned on", Toast.LENGTH_SHORT).show();
-                wifiManager.startScan();
-            }
-        } else {
-            Toast.makeText(Main4Activity.this, "scanning", Toast.LENGTH_SHORT).show();
-            wifiManager.startScan();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiverWifi);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MY_PERMISSIONS_ACCESS_COARSE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(Main4Activity.this, "permission granted", Toast.LENGTH_SHORT).show();
-                    wifiManager.startScan();
-                } else {
-
-                    Toast.makeText(Main4Activity.this, "permission not granted", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                break;
-        }
-    }
 
 
     boolean doubleBackToExitPressedOnce = false;
