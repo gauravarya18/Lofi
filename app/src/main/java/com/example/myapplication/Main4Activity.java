@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -42,6 +43,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -103,6 +106,18 @@ public class Main4Activity extends AppCompatActivity {
     public String  actualfilepath="";
     private int request_code =1, FILE_SELECT_CODE =101;
 
+
+
+    String TextFileURL = "https://docs.google.com/document/d/1mCx8N1wy4Pv2GhBqpc6IUEVNOZZFhWMo9iMeOKhOvD8/edit" ;
+    TextView textView ;
+    Button button ;
+    URL url ;
+    String TextHolder = "" , TextHolder2 = "";
+    BufferedReader bufferReader ;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,12 +175,64 @@ public class Main4Activity extends AppCompatActivity {
         wifiData=tv.getText().toString();
 
        // performfileSearch();
-      FileData=readText(("Download/data.txt"));
-        textmsg.setText(FileData);
+//      FileData=readText(("Download/data.txt"));
+//        textmsg.setText(FileData);
 
-        String x=compareData((list));
-        resultData.setText(x);
+//        String x=compareData((list));
+//        resultData.setText(x);
+
+        new GetNotePadFileFromServer().execute();
+
     }
+
+
+
+
+    public class GetNotePadFileFromServer extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                url = new URL(TextFileURL);
+
+                bufferReader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                while ((TextHolder2 = bufferReader.readLine()) != null) {
+
+                    TextHolder += TextHolder2;
+                }
+                bufferReader.close();
+
+            } catch (MalformedURLException malformedURLException) {
+
+                // TODO Auto-generated catch block
+                malformedURLException.printStackTrace();
+                TextHolder = malformedURLException.toString();
+
+            } catch (IOException iOException) {
+
+                // TODO Auto-generated catch block
+                iOException.printStackTrace();
+
+                TextHolder = iOException.toString();
+            }
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void finalTextHolder) {
+
+            textmsg.setText(TextHolder);
+
+            super.onPostExecute(finalTextHolder);
+        }
+
+    }
+
+
 
 
 
