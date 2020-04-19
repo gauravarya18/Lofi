@@ -108,13 +108,13 @@ public class Main4Activity extends AppCompatActivity {
 
 
 
-    String TextFileURL = "https://docs.google.com/document/d/1mCx8N1wy4Pv2GhBqpc6IUEVNOZZFhWMo9iMeOKhOvD8/edit" ;
+    String TextFileURL = "https://raw.githubusercontent.com/gauravarya18/Lofi/master/data.txt" ;
     TextView textView ;
     Button button ;
     URL url ;
     String TextHolder = "" , TextHolder2 = "";
     BufferedReader bufferReader ;
-
+    int flag=0;
 
 
 
@@ -178,10 +178,14 @@ public class Main4Activity extends AppCompatActivity {
 //      FileData=readText(("Download/data.txt"));
 //        textmsg.setText(FileData);
 
-//        String x=compareData((list));
-//        resultData.setText(x);
-
-        new GetNotePadFileFromServer().execute();
+        if(dataFile.size()==0)
+            new GetNotePadFileFromServer().execute();
+        else
+            textmsg.setText(TextHolder);
+        String x=compareData((list));
+        resultData.setText(x);
+        if(list.size()==0)
+            tv.setText("Please on Wifi or there is no wifi signal around you");
 
     }
 
@@ -197,10 +201,41 @@ public class Main4Activity extends AppCompatActivity {
                 url = new URL(TextFileURL);
 
                 bufferReader = new BufferedReader(new InputStreamReader(url.openStream()));
-
+                String d="!";
                 while ((TextHolder2 = bufferReader.readLine()) != null) {
 
-                    TextHolder += TextHolder2;
+                    String Key="";
+                    ArrayList<String>tempList=new ArrayList<>();
+                    TextHolder+=TextHolder2;
+                    TextHolder+="\n";
+                    if(TextHolder2.matches(d))
+                    {
+                        TextHolder2=bufferReader.readLine();
+                        Key=TextHolder2;
+                        TextHolder+=TextHolder2;
+                        TextHolder+="\n";
+                        while ((TextHolder2 = bufferReader.readLine()) != null)
+                        {
+                            if(TextHolder2.matches(d))
+                                break;
+                            tempList.add(TextHolder2);
+                            //Toast.makeText(this,"Error in Fetching",Toast.LENGTH_LONG).show();
+                            TextHolder+=TextHolder2;
+                            TextHolder+="\n";
+                        }
+                    }
+
+                    Log.d("map","iiiii");
+                    Log.d("map",Key);
+                    for(int i=0;i<tempList.size();i++)
+                        Log.d("map",tempList.get(i));
+                    dataFile.put(Key,tempList);
+
+
+
+
+
+
                 }
                 bufferReader.close();
 
@@ -225,6 +260,7 @@ public class Main4Activity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void finalTextHolder) {
 
+            textmsg.setText("");
             textmsg.setText(TextHolder);
 
             super.onPostExecute(finalTextHolder);
@@ -384,6 +420,9 @@ public class Main4Activity extends AppCompatActivity {
                   match+=1;
           }
 
+          if(liveData.size()==0)
+              return 0;
+          else
           return match/liveData.size();
     }
 }
