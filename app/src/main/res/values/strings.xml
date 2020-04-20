@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Lofi</string>
+    <string-array name="my_books">
+        <item>Select Location</item>
+        <item>Home</item>
+        <item>IIT Jodhpur</item>
+        <item>Microsoft Office</item>
+    </string-array>
 </resources>

@@ -129,7 +129,7 @@ public class Main4Activity extends AppCompatActivity {
 
 //        login =(ConstraintLayout) findViewById(R.id.login_page);
 //        login.setVisibility(View.INVISIBLE);
-       // getWindow().getSharedElementEnterTransition().setDuration(800);
+        // getWindow().getSharedElementEnterTransition().setDuration(800);
 //        login.setVisibility(View.VISIBLE);
 //       // getWindow().getSharedElementReturnTransition().setDuration(2000);
 //
@@ -174,7 +174,7 @@ public class Main4Activity extends AppCompatActivity {
         }
         wifiData=tv.getText().toString();
 
-       // performfileSearch();
+        // performfileSearch();
 //      FileData=readText(("Download/data.txt"));
 //        textmsg.setText(FileData);
 
@@ -392,7 +392,7 @@ public class Main4Activity extends AppCompatActivity {
 
     }
 
-//    Adaptor to compare the file data and live data
+    //    Adaptor to compare the file data and live data
     private String compareData(ArrayList<String>wifiData)
     {
         for (Map.Entry<String,ArrayList<String>> entry : dataFile.entrySet())
@@ -405,7 +405,7 @@ public class Main4Activity extends AppCompatActivity {
         return "No location Found";
     }
 
-//    Specifying a special Algorithm to compare the strings
+    //    Specifying a special Algorithm to compare the strings
     private float calScore(ArrayList<String>mapArray,ArrayList<String>liveData)
     {
 //        if(mapArray==liveData)
@@ -413,17 +413,16 @@ public class Main4Activity extends AppCompatActivity {
 //        else
 //            return 0;
         int match=0;
-          for(int i=0;i<liveData.size();i++)
-          {
-              //Log.d("heyyy",mapArray.get(i));
-              if(mapArray.contains(liveData.get(i)))
-                  match+=1;
-          }
+        for(int i=0;i<liveData.size();i++)
+        {
+            //Log.d("heyyy",mapArray.get(i));
+            if(mapArray.contains(liveData.get(i)))
+                match+=1;
+        }
 
-          if(liveData.size()==0)
-              return 0;
-          else
-          return match/liveData.size();
+        if(liveData.size()==0)
+            return 0;
+        else
+            return match/liveData.size();
     }
 }
-
