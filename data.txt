@@ -1,10 +1,14 @@
 !
-Gaurav's Home:
-0a:28:19:d1:e0:7b
-d2:f8:8c:9f:2b:97
+Room 1:
+68:c4:4d:05:f9:1a 70:5a:ac:0a:ac:68 38:94:e0:e6:9d:ae 7c:78:7e:5f:f6:d0  
+70:5a:ac:0a:ac:68 38:94:e0:e6:9d:ae 7c:78:7e:5f:f6:d0 
+38:94:e0:e6:9d:ae 7c:78:7e:5f:f6:d0  
+7c:78:7e:5f:f6:d0 
 !
 !
-Shubhnakar's Home:
-04:95:e6:3a:d5:59
-f8:e9:03:94:40:c3
+Room 2:
+7c:78:7e:5f:f6:d0 70:5a:ac:0a:ac:68 68:c4:4d:05:f9:1a 38:94:e0:e6:9d:ae  
+70:5a:ac:0a:ac:68 68:c4:4d:05:f9:1a 38:94:e0:e6:9d:ae  
+68:c4:4d:05:f9:1a 38:94:e0:e6:9d:ae  
+38:94:e0:e6:9d:ae 
 !
