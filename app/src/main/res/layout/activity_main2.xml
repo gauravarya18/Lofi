@@ -4,24 +4,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myapplication.Main2Activity">
-
-    <ScrollView
-        android:layout_width="422dp"
-        android:layout_height="691dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/textView"
-            android:layout_width="381dp"
-            android:layout_height="565dp"
-            android:text=""
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </ScrollView>
-</android.support.constraint.ConstraintLayout>
+    tools:context="com.example.myapplication.Main2Activity"/>

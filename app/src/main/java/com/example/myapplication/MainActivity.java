@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        receiverWifi = new WifiReceiver(wifiManager, wifiList,this,list);
+        receiverWifi = new WifiReceiver(wifiManager, wifiList,this,list,0);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(receiverWifi, intentFilter);

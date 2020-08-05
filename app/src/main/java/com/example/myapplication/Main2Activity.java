@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,33 +19,19 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        //Ref#2 https://stackoverflow.com/questions/13601883/how-to-pass-arraylist-of-objects-from-one-to-another-activity-using-intent-in-an
+        Intent i=new Intent(Main2Activity.this,Main3Activity.class);
+        Bundle args3 = new Bundle();
+        args3.putSerializable("ARRAYLIST3",(Serializable)0);
+        i.putExtra("BUNDLE3",args3);
 
-        Intent intent = getIntent();
-        Bundle args = intent.getBundleExtra("BUNDLE");
-        list = (ArrayList<String>) args.getSerializable("ARRAYLIST");
+        Log.d("hey","finished");
+        this.startActivity(i);
 
-        //Ref#3 https://stackoverflow.com/questions/14355731/killing-one-activity-from-another/14356774
-       // MainActivity.getInstance().finish();
-
-        EditText tv=findViewById(R.id.textView);
-        for(int i=0;i<list.size();i++)
-        {
-            tv.setText(tv.getText()+"\n"+list.get(i)+"\n");
-        }
 
 
     }
 
-    boolean doubleBackToExitPressedOnce = false;
 
-    @Override
-    public void onBackPressed() {
-        Intent i=new Intent(Main2Activity.this,Main4Activity.class);
-        Bundle args = new Bundle();
-        args.putSerializable("ARRAYLIST",(Serializable)list);
-        i.putExtra("BUNDLE",args);
-        startActivity(i);
-        finish();
-    }
+
+
 }

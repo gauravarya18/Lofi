@@ -43,10 +43,16 @@ public class Main3Activity extends AppCompatActivity {
     private WifiManager wifiManager;
     private final int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
     WifiReceiver receiverWifi;
+    int x=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+
+        Intent intent = getIntent();
+        Bundle args3 = intent.getBundleExtra("BUNDLE3");
+        x = (int) args3.getSerializable("ARRAYLIST3");
+
         //getWindow().setSharedElementEnterTransition(enterTransition());
         frombottom = AnimationUtils.loadAnimation(this, R.anim.frombottom);
 
@@ -65,50 +71,50 @@ public class Main3Activity extends AppCompatActivity {
         }
         subheading.setVisibility(View.INVISIBLE);
         heading.startAnimation(frombottom);
-        new CountDownTimer(2000, 1000) {
-            public void onFinish() {
-                subheading.setVisibility(View.VISIBLE);
-            }
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-        }.start();
+//        new CountDownTimer(2000, 1000) {
+//            public void onFinish() {
+//                subheading.setVisibility(View.VISIBLE);
+//            }
+//
+//            public void onTick(long millisUntilFinished) {
+//
+//            }
+//        }.start();
 
       //  bgapp.animate().translationY(1500).setDuration(1000).setStartDelay(500);
 //        textsplash.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(800);
 
-        new CountDownTimer(4000, 1000) {
-            public void onFinish() {
-                // When timer is finished
-                // Execute your code here
+//        new CountDownTimer(4000, 1000) {
+//            public void onFinish() {
+//                // When timer is finished
+//                // Execute your code here
+//
+//                Intent i=new Intent(Main3Activity.this,Main4Activity.class);
+//                Pair[] pairs=new Pair[1];
+//                //pairs[0]=new Pair<View,String>(bgapp,"backgroungimg");
+//                pairs[0]=new Pair<View,String>(heading,"title");
+//               // pairs[2]=new Pair<View,String>(subheading,"subtitle");
+//
+//                ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Main3Activity.this,pairs);
+//
+//
+////                Bundle args = new Bundle();
+////                args.putSerializable("ARRAYLIST",(Serializable)BSSID);
+////                i.putExtra("BUNDLE",args);
+////                startActivity(i);
+//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                finish();
+//            }
 
-                Intent i=new Intent(Main3Activity.this,Main4Activity.class);
-                Pair[] pairs=new Pair[1];
-                //pairs[0]=new Pair<View,String>(bgapp,"backgroungimg");
-                pairs[0]=new Pair<View,String>(heading,"title");
-               // pairs[2]=new Pair<View,String>(subheading,"subtitle");
-
-                ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Main3Activity.this,pairs);
-
-
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST",(Serializable)BSSID);
-                i.putExtra("BUNDLE",args);
-                startActivity(i);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-            }
-
-            public void onTick(long millisUntilFinished) {
-
-
-                //login.setVisibility(View.VISIBLE);
-
-
-
-            }
-        }.start();
+//            public void onTick(long millisUntilFinished) {
+//
+//
+//                //login.setVisibility(View.VISIBLE);
+//
+//
+//
+//            }
+//        }.start();
 
 
 
@@ -118,7 +124,7 @@ public class Main3Activity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        receiverWifi = new WifiReceiver(wifiManager, wifiList,this,BSSID);
+        receiverWifi = new WifiReceiver(wifiManager, wifiList,this,BSSID,x);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(receiverWifi, intentFilter);

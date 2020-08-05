@@ -85,6 +85,7 @@ import java.util.Set;
 
 public class Main4Activity extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
+    ArrayList<Integer> Level = new ArrayList<>();
     private static final int PERMISSION_REQUEST_STORAGE=1000;
     private static final int READ_REQUEST_CODE=42;
     private ListView wifiList;
@@ -98,15 +99,20 @@ public class Main4Activity extends AppCompatActivity {
     String FileData;
     String wifiData;
     Map<String,ArrayList<String>> dataFile=new HashMap<>();
+    Map<String,ArrayList<String>> Wifiresults=new HashMap<>();
     EditText resultData;
-
+    int flag_dobule=1;
+    Map<String,Map<String,ArrayList<String>>> Data = new HashMap<>();
 
     String xx="";
+    String finalresults="";
     private String TAG ="main4activty";
     public String  actualfilepath="";
     private int request_code =1, FILE_SELECT_CODE =101;
 
-
+    Map<String,ArrayList<String>> t1=new HashMap<>();
+    Map<String,ArrayList<String>> t2=new HashMap<>();
+    Map<String,ArrayList<String>> t3=new HashMap<>();
 
     String TextFileURL = "https://raw.githubusercontent.com/gauravarya18/Lofi/master/data.txt" ;
     TextView textView ;
@@ -115,48 +121,32 @@ public class Main4Activity extends AppCompatActivity {
     String TextHolder = "" , TextHolder2 = "";
     BufferedReader bufferReader ;
     int flag=0;
-
-
+    int x=0;
+    EditText tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
-
+        new GetNotePadFileFromServer().execute();
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
-        list = (ArrayList<String>) args.getSerializable("ARRAYLIST");
+        Wifiresults = (Map<String,ArrayList<String>>) args.getSerializable("ARRAYLIST");
 
-//        login =(ConstraintLayout) findViewById(R.id.login_page);
-//        login.setVisibility(View.INVISIBLE);
-        // getWindow().getSharedElementEnterTransition().setDuration(800);
-//        login.setVisibility(View.VISIBLE);
-//       // getWindow().getSharedElementReturnTransition().setDuration(2000);
-//
+        Bundle args1 = intent.getBundleExtra("BUNDLE1");
+        list = (ArrayList<String>) args1.getSerializable("ARRAYLIST1");
 
+        Bundle args2 = intent.getBundleExtra("BUNDLE2");
+        Level = (ArrayList<Integer>) args2.getSerializable("ARRAYLIST2");
 
-
+        Bundle args3 = intent.getBundleExtra("BUNDLE3");
+        x = (int) args3.getSerializable("ARRAYLIST3");
 
 
         textmsg=(EditText)findViewById(R.id.filedata);
         resultData=findViewById(R.id.Result);
+         tv=findViewById(R.id.textView);
 
-//        try {
-//            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
-//            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-//
-//            String temp="Hi Chutiye, tu gandu h.";
-//
-//            outputWriter.write(temp);
-//            outputWriter.close();
-//
-//            //display file saved message
-//            Toast.makeText(getBaseContext(), "File saved successfully!",
-//                    Toast.LENGTH_SHORT).show();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
     }
 
@@ -164,28 +154,69 @@ public class Main4Activity extends AppCompatActivity {
     // Read text from file
     public void ReadBtn(View v) {
         //reading text from file
+        if(flag_dobule==0)
+        {
 
-        EditText tv=findViewById(R.id.textView);
+            Intent i=new Intent(this,Main3Activity.class);
+            Bundle args3 = new Bundle();
+            args3.putSerializable("ARRAYLIST3",(Serializable)x);
+            i.putExtra("BUNDLE3",args3);
+            this.startActivity(i);
+            finish();
+        }
+
+        flag_dobule=0;
+
+
+
+
+
         tv.setText("");
-        textmsg.setText("");
+        //textmsg.setText("");
+        String s="All list "+ Wifiresults.size()+"\n";
         for(int i=0;i<list.size();i++)
         {
-            tv.setText(tv.getText()+list.get(i)+"\n");
+            s=s+list.get(i)+" "+"\n";
         }
+        s+="\n";
+        for(int i=0;i<Level.size();i++)
+        {
+            s=s+Level.get(i)+" "+"\n";
+        }
+        s+="\n";
+        Log.d("hey-size",Long.toString(Wifiresults.size()));
+        String new1="";
+        for (int i=0;i<list.size();i++)
+        {
+            new1=new1+list.get(i) + " -- ";
+            //tv.setText(tv.getText()+ entry.getKey() + " -- ");
+            for(int j=0;j<Wifiresults.get(list.get(i)).size();j++)
+            {
+                new1=new1 + Wifiresults.get(list.get(i)).get(j)+"  ";
+                //tv.setText(tv.getText()+entry.getValue().get(i));
+            }
+           // tv.setText("\n");
+
+            new1=new1 + "\n";
+        }
+
+        tv.setText(s+new1);
         wifiData=tv.getText().toString();
 
         // performfileSearch();
 //      FileData=readText(("Download/data.txt"));
 //        textmsg.setText(FileData);
+        //textmsg.setText("     ");
 
-        if(dataFile.size()==0)
-            new GetNotePadFileFromServer().execute();
-        else
-            textmsg.setText(TextHolder);
-        String x=compareData((list));
-        resultData.setText(x);
-        if(list.size()==0)
-            tv.setText("Please on Wifi or there is no wifi signal around you");
+
+
+                resultData.setText("");
+                String x=compareData();
+                resultData.setText(x+"\n"+finalresults);
+                if(Wifiresults.size()==0)
+                    tv.setText("Please on Wifi or there is no wifi signal around you");
+
+
 
     }
 
@@ -204,34 +235,41 @@ public class Main4Activity extends AppCompatActivity {
                 String d="!";
                 while ((TextHolder2 = bufferReader.readLine()) != null) {
 
-                    String Key="";
+                    String Key_location="";
                     ArrayList<String>tempList=new ArrayList<>();
-                    TextHolder+=TextHolder2;
-                    TextHolder+="\n";
+//                    TextHolder+=TextHolder2;
+//                    TextHolder+="\n";
                     if(TextHolder2.matches(d))
                     {
                         TextHolder2=bufferReader.readLine();
-                        Key=TextHolder2;
+                        Key_location=TextHolder2;
                         TextHolder+=TextHolder2;
                         TextHolder+="\n";
+                        Map<String,ArrayList<String>> x=new HashMap<>();
+
                         while ((TextHolder2 = bufferReader.readLine()) != null)
                         {
                             if(TextHolder2.matches(d))
                                 break;
-                            tempList.add(TextHolder2);
+
+                            ArrayList<String> values=new ArrayList<>();
+                            String temp[]=TextHolder2.split(" ");
+                            for(int i=1;i<temp.length;i++)
+                                values.add(temp[i]);
+
+                            String key= temp[0];
+                            x.put(key,values);
                             //Toast.makeText(this,"Error in Fetching",Toast.LENGTH_LONG).show();
                             TextHolder+=TextHolder2;
                             TextHolder+="\n";
                         }
+
+                        Log.d("map","iiiii");
+                        Log.d("map",Key_location);
+                        for(int i=0;i<tempList.size();i++)
+                            Log.d("map",tempList.get(i));
+                        Data.put(Key_location,x);
                     }
-
-                    Log.d("map","iiiii");
-                    Log.d("map",Key);
-                    for(int i=0;i<tempList.size();i++)
-                        Log.d("map",tempList.get(i));
-                    dataFile.put(Key,tempList);
-
-
 
 
 
@@ -260,7 +298,7 @@ public class Main4Activity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void finalTextHolder) {
 
-            textmsg.setText("");
+            textmsg.setText("     ");
             textmsg.setText(TextHolder);
 
             super.onPostExecute(finalTextHolder);
@@ -393,36 +431,67 @@ public class Main4Activity extends AppCompatActivity {
     }
 
     //    Adaptor to compare the file data and live data
-    private String compareData(ArrayList<String>wifiData)
+    private String compareData()
     {
-        for (Map.Entry<String,ArrayList<String>> entry : dataFile.entrySet())
+        int maxScore =0;
+        String finalLocation="No location Found";
+        finalresults="";
+
+        for (Map.Entry<String,Map<String,ArrayList<String>>> entry : Data.entrySet())
         {
-            if(calScore(entry.getValue(),wifiData)>=0.5)
-                return entry.getKey();
+            String currLocation = entry.getKey();
+            Map<String,ArrayList<String>> Key_value=new HashMap<>();
+            Key_value=entry.getValue();
+            int currScore =0;
+            for (Map.Entry<String,ArrayList<String>> e : Wifiresults.entrySet())
+            {
+                if(Key_value.containsKey(e.getKey())) {
+                    ArrayList<String> arr1 = Key_value.get(e.getKey());
+                    ArrayList<String> arr2 = e.getValue();
+                    currScore+=cal(arr1,arr2);
+
+                }
+            }
+
+            int maxPossibleScore = getMaxPossibleScore(Key_value);
+            float percent=((float)currScore/(float)maxPossibleScore);
+                percent*=100;
+
+            finalresults=finalresults+currLocation+"   "+Float.toString(percent)+"%";
+            finalresults=finalresults+"\n";
+
+            if(currScore>maxScore)
+            {
+                finalLocation=currLocation;
+                maxScore=currScore;
+            }
 
         }
 
-        return "No location Found";
+        return finalLocation;
     }
 
     //    Specifying a special Algorithm to compare the strings
-    private float calScore(ArrayList<String>mapArray,ArrayList<String>liveData)
+    int cal(ArrayList<String> arr1,ArrayList<String> arr2)
     {
-//        if(mapArray==liveData)
-//            return 1;
-//        else
-//            return 0;
-        int match=0;
-        for(int i=0;i<liveData.size();i++)
-        {
-            //Log.d("heyyy",mapArray.get(i));
-            if(mapArray.contains(liveData.get(i)))
-                match+=1;
-        }
+        int score=0;
+        for(int i=0;i<arr1.size();i++)
+            for(int j=0;j<arr2.size();j++)
+            {
+                if(arr1.get(i).matches(arr2.get(j)))
+                    score+=1;
+            }
 
-        if(liveData.size()==0)
-            return 0;
-        else
-            return match/liveData.size();
+        return score;
+    }
+
+    int getMaxPossibleScore(Map<String,ArrayList<String>> m)
+    {
+        int score=0;
+        for (Map.Entry<String,ArrayList<String>> e : m.entrySet())
+        {
+            score+=e.getValue().size();
+        }
+        return score;
     }
 }
